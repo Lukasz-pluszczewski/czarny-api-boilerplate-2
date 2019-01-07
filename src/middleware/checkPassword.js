@@ -1,8 +1,11 @@
-const checkPassword = password => (req, res, next) => {
-  if (req.get('authentication') === password) {
+const checkPassword = password => ({ next, getHeader }) => {
+  if (getHeader('authentication') === password || !password) {
     return next();
   }
-  res.status(401).json({ message: 'Password incorrect' });
+  return {
+    status: 401,
+    body: { message: 'Password incorrect' },
+  };
 };
 
 export default checkPassword;
