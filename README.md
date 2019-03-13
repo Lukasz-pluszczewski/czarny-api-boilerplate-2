@@ -16,7 +16,6 @@
 ## Simple express
 ### Usage
 ```
-
 const port = 8080;
 const routes = [
   {
@@ -63,6 +62,16 @@ const routes = [
       ],
     },
   },
+  {
+    path: '/customResponse',
+    handlers: {
+      get: ({ res }) => {
+        res.write('<div>Lorem ipsum</div>')
+        res.end()
+        // no return
+      }
+    }
+  }
 ];
 
 const expressMiddlewares = [
@@ -76,18 +85,26 @@ const globalMiddlewares = [
 ];
 
 const errorHandlers = [
+  (error) => {
+    if (error instanceof NotFoundError) {
+      return {
+        status: 404,
+        body: { message: 'Not found' }
+      }
+    }
+  },
   (error, { body, originalUrl, next }) => {
     if (error instanceof AuthorizationError) {
       return {
         status: 401,
-        body: 'Unauthorized',
+        body: { message: 'Unauthorized' },
       };
     }
     next(error);
   },
   error => ({
     status: 500,
-    body: 'Something went wrong',
+    body: { message: 'Something went wrong' },
   }),
 ];
 
@@ -98,7 +115,7 @@ simpleExpress({
   globalMiddlewares,
   errorHandlers,
 })
-  .then(app => console.log(`App started on port ${port}.`))
+  .then(({ app }) => console.log(`App started on port ${port}.`))
   .catch(error => console.error('App starting failed', error));
 
 ```

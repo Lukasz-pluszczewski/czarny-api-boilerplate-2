@@ -1,7 +1,17 @@
+import _ from 'lodash';
 import { MongoClient } from 'mongodb';
 import config from 'config';
 
-export const createDatabase = () => {
+/*
+  Capped collection config example:
+  {
+    lastRequests: {
+      max: 5,
+      size: 5242880,
+    }
+  }
+ */
+export const createDatabase = ({ cappedCollections = {} } = {}) => {
   return new Promise((resolve, reject) => {
     MongoClient.connect(`mongodb://${config.dbHost}/`, (err, db) => {
       if (err) {
@@ -10,34 +20,43 @@ export const createDatabase = () => {
 
       const database = db.db(config.dbName);
 
-      // Capped collection.
-      const capped = database.collection('currentPlan');
+      // Capped collections
+      const cappedCollectionsPromises = _.map(cappedCollections, (cappedCollectionConfig, collectionName) => {
+        return new Promise((resolve, reject) => {
+          const capped = database.collection(collectionName);
 
-      capped.find().count((err, count) => {
-        if (err) {
-          reject(err);
-        }
-
-        if (count === 0) {
-          database.createCollection(
-            'currentPlan',
-            {
-              capped: true,
-              max: 5,
-              size: 5242880,
-            },
-            err => {
-              if (err) {
-                reject(err);
-              }
-
-              resolve(database);
+          capped.find().count((err, count) => {
+            if (err) {
+              reject(err);
             }
-          );
-        } else {
-          resolve(database);
-        }
+
+            if (count === 0) {
+              database.createCollection(
+                collectionName,
+                {
+                  capped: true,
+                  max: 5,
+                  size: 5242880,
+                  ...cappedCollectionConfig,
+                },
+                err => {
+                  if (err) {
+                    reject(err);
+                  }
+
+                  resolve();
+                }
+              );
+            } else {
+              resolve();
+            }
+          });
+        });
       });
+
+      Promise.all(cappedCollectionsPromises)
+        .then(() => resolve(database))
+        .catch(reject);
     });
   });
 };
@@ -62,7 +81,6 @@ export const insert = (db, collection) => (data) => {
 };
 
 export const update = (db, collection) => (query, data) => {
-  console.log('updating', query, data);
   return new Promise((resolve, reject) => {
     db.collection(collection).update(query, data, (err, result) => {
       if (err) {
