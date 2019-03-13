@@ -13,7 +13,7 @@ import config from 'config';
  */
 export const createDatabase = ({ cappedCollections = {} } = {}) => {
   return new Promise((resolve, reject) => {
-    MongoClient.connect(`mongodb://${config.dbHost}/`, (err, db) => {
+    MongoClient.connect(`mongodb://${config.dbHost}/`, { useNewUrlParser: true }, (err, db) => {
       if (err) {
         return reject(err);
       }
