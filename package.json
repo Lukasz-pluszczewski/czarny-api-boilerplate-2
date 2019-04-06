@@ -5,9 +5,9 @@
   "repository": "https://github.com/Lukasz-pluszczewski/czarny-api-boilerplate-2",
   "main": "dist",
   "scripts": {
-    "dev": "NODE_PATH=src ENV=development nodemon --exec babel-node -- src/index.js",
+    "dev": "NODE_PATH=src ENV=development nodemon -r node_modules/dotenv/config --exec babel-node -- src/index.js",
     "build": "NODE_PATH=src babel src -s -d dist",
-    "start": "NODE_PATH=dist ENV=production node dist",
+    "start": "NODE_PATH=dist ENV=production node -r dotenv/config dist",
     "prestart": "NODE_PATH=src npm run -s build",
     "lint": "NODE_PATH=src eslint src || true",
     "lint:fix": "NODE_PATH=src eslint src --fix"
@@ -19,6 +19,7 @@
     "body-parser": "1.18.3",
     "compression": "1.7.3",
     "cors": "2.8.5",
+    "dotenv": "^7.0.0",
     "express": "4.16.4",
     "lodash": "4.17.11",
     "mongodb": "3.1.10"

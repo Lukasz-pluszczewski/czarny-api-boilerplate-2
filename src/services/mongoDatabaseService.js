@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { MongoClient } from 'mongodb';
-import config from 'config';
+import config from '../config';
 
 /*
   Capped collection config example:
