@@ -65,22 +65,29 @@ const getStats = port => {
         return log.stats(`  No routes regitered`);
       }
       log.stats(`  Registered ${statsInstance.getCounter('routes')} routes with ${statsInstance.getCounter('routeHandlers')} handlers:`);
-      const mappedRoutes = [];
+      const mappedRoutes = new Set();
       const mappedMethods = {};
 
       stats.events.registeringRoute.forEach(routeEvent => {
-        const { path, method, numberOfHandlers } = routeEvent;
+        const { path, method, numberOfHandlers, names } = routeEvent;
         if (!mappedMethods[path]) {
           mappedMethods[path] = [];
         }
-        mappedMethods[path].push({ method, numberOfHandlers });
-        mappedRoutes.push(path);
+        mappedMethods[path].push({ method, numberOfHandlers, names });
+        mappedRoutes.add(path);
       });
 
       mappedRoutes.forEach(path => {
-        log.stats(`    ${path}`);
-        mappedMethods[path].forEach(({ method, numberOfHandlers }) => {
-          log.stats(`      ${method}${numberOfHandlers > 1 ? `${numberOfHandlers} handlers` : ''}`);
+        const invalidRoute = path.indexOf('/') !== 0 && path !== '*';
+        log.stats(`    ${path}${invalidRoute ? ' - WARNING: Route not starting with "/"!' : ''}`);
+        mappedMethods[path].forEach(({ method, numberOfHandlers, names = [] }) => {
+          let foundNames = false;
+          names.forEach(name => {
+            if (name !== 'anonymous') {
+              foundNames = true;
+            }
+          });
+          log.stats(`      ${method}${numberOfHandlers > 1 || foundNames ? `, ${numberOfHandlers} handler${numberOfHandlers === 1 ? '' : 's'}` : ''}${names && names.length && foundNames ? `: ${names.join(', ')}` : ''}`);
         });
       });
     },

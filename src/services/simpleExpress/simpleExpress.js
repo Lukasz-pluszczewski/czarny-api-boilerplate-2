@@ -109,11 +109,15 @@ const simpleExpress = async({
 
   // applying routes
   routes.forEach(({ handlers, path }) => {
+    if (path.indexOf('/') !== 0 && path !== '*') {
+      log.warning(`Path "${path}" does not start with "/"`);
+    }
     forEach(handlers, (handler, method) => {
       if (!Array.isArray(handler)) {
         handler = [handler];
       }
-      stats.registerEvent('registeringRoute', { path, method: mapMethod(method), numberOfHandlers: handler.length });
+
+      stats.registerEvent('registeringRoute', { path, method: mapMethod(method), numberOfHandlers: handler.length, names: handler.map(el => !el.name || el.name === method ? 'anonymous' : el.name) });
       app[mapMethod(method)](path, ...handler.map(createHandlerWithParams));
     });
   });
