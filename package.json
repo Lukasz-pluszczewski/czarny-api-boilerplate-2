@@ -23,7 +23,8 @@
     "dotenv": "7.0.0",
     "express": "4.16.4",
     "lodash": "4.17.11",
-    "mongodb": "3.1.10"
+    "mongodb": "3.1.10",
+    "simple-express": "git+https://github.com/Lukasz-pluszczewski/simple-express.git"
   },
   "devDependencies": {
     "@babel/cli": "7.1.5",

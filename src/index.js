@@ -4,7 +4,8 @@ import routes from 'routes';
 
 import createDatabase from './services/mongoDatabaseService';
 
-import simpleExpress from 'services/simpleExpress/simpleExpress';
+import simpleExpress from '../../../simple-express/simple-express/build/index';
+import simpleApi from './services/simpleApi';
 
 (async function() {
   const db = await createDatabase();
@@ -17,6 +18,9 @@ import simpleExpress from 'services/simpleExpress/simpleExpress';
     ],
     routeParams: { db },
   })
-    .then(({ app }) => console.log(`Started on port ${app.server.address().port}`))
+    .then(({ app }) => {
+      console.log(`Started on port ${app.server.address().port}`);
+      app.use('/test', simpleApi());
+    })
     .catch(error => console.error('Error', error));
 })();
