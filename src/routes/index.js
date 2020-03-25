@@ -1,9 +1,9 @@
-import health from './health';
+import standard from './standard';
 import example from './example';
 
-const routes = [
-  ...health,
+const routes = {
   ...example,
-];
+  ...standard,
+};
 
 export default routes;

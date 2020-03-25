@@ -1,25 +1,17 @@
-import { ObjectID } from 'mongodb';
-import { find, findLast, insert, remove, update } from 'services/mongoDatabaseService';
-
-const healthRoutes = [
-  {
-    path: '*',
-    handlers: {
-      get: ({ body, query, params, originalUrl, protocol, xhr, get, req, db }) => {
-        return {
-          body: {
-            message: 'Request success',
-            body,
-            query,
-            params,
-            originalUrl,
-            protocol,
-            xhr,
-          },
-        };
-      },
+const exampleRoutes = {
+  '/example/**': {
+    get: async ({ body, query, params, originalUrl, protocol, xhr, get, req, db }) => {
+      return {
+        body: {
+          message: 'Request success',
+          body,
+          query,
+          originalUrl,
+          protocol,
+        },
+      };
     },
   },
-];
+};
 
-export default healthRoutes;
+export default exampleRoutes;
