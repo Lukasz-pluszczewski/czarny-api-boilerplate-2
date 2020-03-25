@@ -2,7 +2,7 @@ import checkPassword from 'middleware/checkPassword';
 import config from './config';
 import routes from 'routes';
 
-import simpleExpress from 'simple-express';
+import simpleExpress from 'simple-express-framework';
 
 (async function() {
 

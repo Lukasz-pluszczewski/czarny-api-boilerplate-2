@@ -11,7 +11,7 @@ import config from '../config';
     }
   }
  */
-export const createDatabase = ({ cappedCollections = {} } = {}) => {
+export const createDatabaseConnection = ({ cappedCollections = {} } = {}) => {
   return new Promise((resolve, reject) => {
     MongoClient.connect(`mongodb://${config.dbHost}/`, { useNewUrlParser: true }, (err, db) => {
       if (err) {
@@ -61,69 +61,69 @@ export const createDatabase = ({ cappedCollections = {} } = {}) => {
   });
 };
 
-export const insert = (db, collection) => (data) => {
-  return new Promise((resolve, reject) => {
-    if (Array.isArray(data)) {
-      return db.collection(collection).insertMany(data, (err, result) => {
-        if (err) {
-          return reject(err);
+const createDatabase = async options => {
+  const db = await createDatabaseConnection(options);
+
+  return {
+    insert: collection => data => {
+      return new Promise((resolve, reject) => {
+        if (Array.isArray(data)) {
+          return db.collection(collection).insertMany(data, (err, result) => {
+            if (err) {
+              return reject(err);
+            }
+            resolve(result);
+          });
         }
-        resolve(result);
+        db.collection(collection).insertOne(data, (err, result) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve(result);
+        });
       });
-    }
-    db.collection(collection).insertOne(data, (err, result) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve(result);
-    });
-  });
+    },
+    update: collection => (query, data) => {
+      return new Promise((resolve, reject) => {
+        db.collection(collection).update(query, data, (err, result) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve(result);
+        });
+      });
+    },
+    find: collection => (query, fields) => {
+      return new Promise((resolve, reject) => {
+        db.collection(collection).find(query, fields && { projection: fields }).toArray((err, result) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(result);
+        });
+      });
+    },
+    findLast: collection => (query, fields) => {
+      return new Promise((resolve, reject) => {
+        db.collection(collection).find(query, fields && { projection: fields }).sort({ $natural: -1 }).limit(1).toArray((err, result) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(result);
+        });
+      });
+    },
+    remove: collection => query => {
+      return new Promise((resolve, reject) => {
+        db.collection(collection).deleteOne(query, (err, result) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve(result);
+        });
+      });
+    },
+  };
 };
-
-export const update = (db, collection) => (query, data) => {
-  return new Promise((resolve, reject) => {
-    db.collection(collection).update(query, data, (err, result) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve(result);
-    });
-  });
-};
-
-export const find = (db, collection) => (query, fields) => {
-  return new Promise((resolve, reject) => {
-    db.collection(collection).find(query, fields && { projection: fields }).toArray((err, result) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(result);
-    });
-  });
-};
-
-export const findLast = (db, collection) => (query, fields) => {
-  return new Promise((resolve, reject) => {
-    db.collection(collection).find(query, fields && { projection: fields }).sort({ $natural: -1 }).limit(1).toArray((err, result) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(result);
-    });
-  });
-};
-
-export const remove = (db, collection) => query => {
-  return new Promise((resolve, reject) => {
-    db.collection(collection).deleteOne(query, (err, result) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve(result);
-    });
-  });
-};
-
-
 
 export default createDatabase;
