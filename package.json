@@ -1,6 +1,6 @@
 {
   "name": "czarny-api-boilerplate-2",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Api boilerplate using express, babel and mongo",
   "repository": "https://github.com/Lukasz-pluszczewski/czarny-api-boilerplate-2",
   "main": "dist",
@@ -10,7 +10,8 @@
     "start": "NODE_PATH=dist ENV=production node -r dotenv/config dist",
     "prestart": "NODE_PATH=src npm run -s build",
     "lint": "NODE_PATH=src eslint src || true",
-    "lint:fix": "NODE_PATH=src eslint src --fix"
+    "lint:fix": "NODE_PATH=src eslint src --fix",
+    "script": "NODE_PATH=scripts node scripts"
   },
   "author": "Łukasz Pluszczewski",
   "license": "MIT",
@@ -24,6 +25,7 @@
     "dotenv": "7.0.0",
     "express": "4.16.4",
     "lodash": "4.17.11",
+    "minimist": "1.2.5",
     "mongodb": "3.1.10",
     "nedb": "1.8.0",
     "pluralize": "8.0.0",
@@ -38,6 +40,7 @@
     "@babel/plugin-proposal-decorators": "7.1.6",
     "@babel/preset-env": "7.1.6",
     "@babel/preset-stage-0": "7.0.0",
+    "@babel/register": "7.9.0",
     "babel-eslint": "10.1.0",
     "eslint": "6.8.0",
     "eslint-config-brainhub": "1.12.0",

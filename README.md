@@ -12,6 +12,12 @@
 ### Run production build
 `ADMIN_PASSWORD=foobarbaz npm run start`
 
+### Run script
+Create a `scripts/nameOfTheScript` directory. You must have a function as default export in the index.js file.
+`npm run script nameOfTheScript -- someArg --someParam`
+
+Parameters and arguments are going to be passed as function argument to your script
+
 
 ## Simple express
 ### Usage
