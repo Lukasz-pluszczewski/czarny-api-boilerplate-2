@@ -3,12 +3,7 @@
   "extends": [
     "brainhub"
   ],
-  "rules": {
-    "no-warning-comments": 1
-  },
-  "globals": {
-    "logger": true
-  },
+  "rules": {},
   "settings": {
     "import/resolve": {
       "moduleDirectory": ["node_modules", "src"]
