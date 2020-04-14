@@ -27,7 +27,7 @@
     "mongodb": "3.1.10",
     "nedb": "1.8.0",
     "pluralize": "8.0.0",
-    "simple-express-framework": "^1.0.2",
+    "simple-express-framework": "^2.0.3",
     "uuid": "3.4.0"
   },
   "devDependencies": {

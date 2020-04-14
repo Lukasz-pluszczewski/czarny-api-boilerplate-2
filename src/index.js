@@ -5,13 +5,10 @@ import routes from 'routes';
 import simpleExpress from 'simple-express-framework';
 
 (async function() {
-
   simpleExpress({
     port: config.port,
-    routes: {
-      ...routes,
-    },
-    globalMiddlewares: [
+    routes: routes,
+    middleware: [
       checkPassword(config.password),
     ],
     routeParams: {},

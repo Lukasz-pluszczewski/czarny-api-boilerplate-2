@@ -1,17 +1,17 @@
-const healthRoutes = {
-  '/health': {
+const healthRoutes = [
+  ['/health', {
     get: () => ({
       body: {
         status: 'healthy',
       },
     }),
-  },
-  '/*': {
-    use: () => ({
+  }],
+  ['*', {
+    get: () => console.log('WAT?') || ({
       status: 404,
       body: { message: 'Route not found' },
     }),
-  },
-};
+  }],
+];
 
 export default healthRoutes;
