@@ -111,11 +111,11 @@ export const getDatabase = async (collections = {}) => {
 
 const createDatabase = () => {
   return createDatabase({
-    users: {
-      ensureIndex: { fieldName: 'username', unique: true },
-      fixtures: [
-        [['username'], { username: 'changeme' }],
-      ],
+    entries: {
+      // ensureIndex: { fieldName: 'username', unique: true },
+      // fixtures: [
+      //   [['username'], { username: 'changeme' }],
+      // ],
     },
   });
 };

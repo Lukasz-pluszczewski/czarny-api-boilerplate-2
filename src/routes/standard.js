@@ -1,4 +1,6 @@
-const healthRoutes = [
+import { RouteNotFoundError } from '../errors';
+
+export default [
   ['/health', {
     get: () => ({
       body: {
@@ -7,11 +9,6 @@ const healthRoutes = [
     }),
   }],
   ['*', {
-    get: () => console.log('WAT?') || ({
-      status: 404,
-      body: { message: 'Route not found' },
-    }),
+    get: () => new RouteNotFoundError(),
   }],
 ];
-
-export default healthRoutes;

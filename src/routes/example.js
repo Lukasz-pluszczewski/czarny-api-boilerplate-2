@@ -1,5 +1,5 @@
-const exampleRoutes = [
-  ['/example/**', {
+export default [
+  ['/**', {
     get: async ({ body, query, params, originalUrl, protocol, xhr, get, req, db }) => {
       return {
         body: {
@@ -14,5 +14,3 @@ const exampleRoutes = [
     },
   }],
 ];
-
-export default exampleRoutes;

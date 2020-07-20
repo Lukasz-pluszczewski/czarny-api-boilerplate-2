@@ -1,8 +1,6 @@
 const config = {
+  env: process.env.env || 'production',
   port: process.env.PORT || 8080,
-  dbName: process.env.DB_NAME || 'chooseYourDbNameForThisBoilerplate',
-  dbHost: process.env.DB_HOST || 'localhost:27017',
-  password: process.env.ADMIN_PASSWORD,
 };
 
 export default config;
