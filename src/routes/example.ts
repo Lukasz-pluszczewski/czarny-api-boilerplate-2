@@ -1,4 +1,6 @@
-export default [
+import { Routes } from '../simple-express-types';
+
+const routes: Routes[] = [
   ['/**', {
     get: async ({ body, query, params, originalUrl, protocol, xhr, get, req, db }) => {
       return {
@@ -14,3 +16,5 @@ export default [
     },
   }],
 ];
+
+export default routes;

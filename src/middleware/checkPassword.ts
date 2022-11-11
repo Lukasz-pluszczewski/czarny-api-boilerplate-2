@@ -1,4 +1,6 @@
-const checkPassword = password => ({ next, getHeader }) => {
+import { Handler } from '../simple-express-types';
+
+const checkPassword: (password: string) => Handler = password => ({ next, getHeader }) => {
   if (getHeader('authentication') === password || !password) {
     return next();
   }

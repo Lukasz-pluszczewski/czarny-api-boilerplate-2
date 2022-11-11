@@ -1,7 +1,10 @@
+import { Routes } from '../simple-express-types';
 import standard from './standard';
 import example from './example';
 
-export default[
+const routes: Routes[] = [
   ['/example', example],
   standard,
 ];
+
+export default routes;

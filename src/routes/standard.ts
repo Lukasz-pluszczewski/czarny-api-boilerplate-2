@@ -1,6 +1,7 @@
 import { RouteNotFoundError } from '../errors';
+import { Routes } from '../simple-express-types';
 
-export default [
+const routes: Routes[] = [
   ['/health', {
     get: () => ({
       body: {
@@ -12,3 +13,5 @@ export default [
     get: () => new RouteNotFoundError(),
   }],
 ];
+
+export default routes;

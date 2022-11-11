@@ -1,6 +1,7 @@
 import config from './config';
+import { ErrorHandler } from './simple-express-types';
 
-export default [
+const errorHandlers: ErrorHandler[] = [
   error => ({
     status: error.httpStatus || error.defaultHttpStatus || 500,
     body: {
@@ -11,8 +12,10 @@ export default [
       details: (config.env === 'development' && error.details) || undefined,
     }
   }),
-  (error) => ({
+  error => ({
     status: 500,
     body: 'Unknown error - error handling failed'
   }),
 ];
+
+export default errorHandlers;
