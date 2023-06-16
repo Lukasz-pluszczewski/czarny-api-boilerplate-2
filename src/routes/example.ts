@@ -1,8 +1,10 @@
-import { Routes } from '../simple-express-types';
+import { Routes } from 'simple-express-framework';
+import { RouteParams } from '../types';
 
-const routes: Routes[] = [
+const routes: Routes<RouteParams>[] = [
   ['/**', {
-    get: async ({ body, query, params, originalUrl, protocol, xhr, get, req, db }) => {
+    get: async ({ body, query, params, originalUrl, protocol, xhr, get, req }) => {
+
       return {
         body: {
           message: 'Request success',

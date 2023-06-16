@@ -1,6 +1,7 @@
-import { Handler } from '../simple-express-types';
+import { Handler } from 'simple-express-framework';
+import { RouteParams } from '../types';
 
-const checkPassword: (password: string) => Handler = password => ({ next, getHeader }) => {
+const checkPassword: (password: string) => Handler<RouteParams> = password => ({ next, getHeader }) => {
   if (getHeader('authentication') === password || !password) {
     return next();
   }

@@ -9,3 +9,9 @@
 
 ### Run production build
 `npm run start`
+
+### Template script
+To quickly fill the project name, and version etc. install dependencies and run:
+```bash
+node template.js
+```

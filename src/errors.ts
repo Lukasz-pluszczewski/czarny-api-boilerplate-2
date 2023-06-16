@@ -8,7 +8,7 @@ type BaseErrorParams = {
 };
 class BaseError extends Error {
   constructor({
-    message = 'Unknown error',
+    message,
     httpStatus = INTERNAL_SERVER_ERROR,
     devMessage,
     details,
@@ -18,6 +18,8 @@ class BaseError extends Error {
     this.httpStatus = httpStatus;
     this.details = details;
   }
+  defaultMessage = 'Unknown error';
+  defaultHttpStatus = INTERNAL_SERVER_ERROR;
   devMessage?: string;
   httpStatus: number;
   details?: any;

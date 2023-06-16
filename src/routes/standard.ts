@@ -1,7 +1,8 @@
 import { RouteNotFoundError } from '../errors';
-import { Routes } from '../simple-express-types';
+import { Routes } from 'simple-express-framework';
+import { RouteParams } from '../types';
 
-const routes: Routes[] = [
+const routes: Routes<RouteParams>[] = [
   ['/health', {
     get: () => ({
       body: {
@@ -10,7 +11,7 @@ const routes: Routes[] = [
     }),
   }],
   ['*', {
-    get: () => new RouteNotFoundError(),
+    get: () => new RouteNotFoundError({ devMessage: 'You ran out of routes!' }),
   }],
 ];
 
