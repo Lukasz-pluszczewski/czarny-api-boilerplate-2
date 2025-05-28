@@ -13,5 +13,5 @@
 ### Template script
 To quickly fill the project name, and version etc. install dependencies and run:
 ```bash
-node template.mjs
+npx tsx init.ts
 ```

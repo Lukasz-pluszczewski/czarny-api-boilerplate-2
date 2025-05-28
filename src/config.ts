@@ -1,5 +1,5 @@
 const config = {
-  env: process.env.env || 'production',
+  env: process.env.ENV || 'production',
   port: process.env.PORT || 8080,
 } as const;
 

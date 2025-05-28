@@ -10,7 +10,7 @@ const routes: Routes<RouteParams>[] = [
       },
     }),
   }],
-  ['*', {
+  ['/*path', {
     get: () => new RouteNotFoundError({ devMessage: 'You ran out of routes!' }),
   }],
 ];

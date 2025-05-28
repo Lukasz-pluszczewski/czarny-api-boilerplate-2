@@ -1,4 +1,3 @@
-import { AddressInfo } from 'net';
 import simpleExpress from 'simple-express-framework';
 
 import config from './config';
@@ -17,8 +16,8 @@ import { RouteParams } from './types';
       SOME_CONSTANT: 'some value',
     },
   })
-    .then(({ server }) =>
-      console.log(`Started on port ${(server.address() as AddressInfo).port}`)
+    .then(({ port }) =>
+      console.log(`Started on port ${port}`)
     )
     .catch((error) => console.error('Error', error));
 })();
